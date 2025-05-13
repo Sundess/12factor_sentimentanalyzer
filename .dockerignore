@@ -1,0 +1,73 @@
+# Python bytecode and cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+
+# Virtual environments
+venv/
+.env/
+.env*
+*.env
+
+# Test and development artifacts
+tests/
+test/
+*.log
+*.tmp
+tmp/
+temp/
+
+# IDE/editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Version control
+.git/
+.gitignore
+.svn/
+.hg/
+
+# Build outputs and distribution
+dist/
+build/
+out/
+
+# Documentation and markdown
+docs/
+*.md
+README*
+
+# Data and model artifacts (if not needed in build)
+data/
+models/
+notebooks/
+references/
+reports/
+
+# Docker and Compose files
+Dockerfile*
+docker-compose*
+
+# Secrets and sensitive files
+*.pem
+*.key
+*.crt
+config.local.*
+*.local.yml
+.local/
+local/
+
+# Project-specific patterns
+Makefile
+mkdocs.yml
+pyproject.toml
+
+# Exclude .gitkeep files (if not needed)
+*.gitkeep
+
+# End of .dockerignore
