@@ -1,12 +1,6 @@
-# 12factor_sentimetAnalyzer
+# Setting Project Locally
 
-<a target="_blank" href="https://cookiecutter-data-science.drivendata.org/">
-    <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
-</a>
-
-Sentiment Analyzer API is a FastAPI application designed for sentiment analysis, powered by Groq’s LLaMA 4 model. It efficiently processes input text to determine sentiment using advanced natural language understanding. The application integrates Celery for asynchronous background task processing and PostgreSQL for reliable data storage. Docker is utilized to streamline deployment and ensure a consistent, containerized environment.
-
-## For Complete docs check docs
+For this you need to have git and docker installed locally in you machine.
 
 ## Local Setup
 
@@ -62,5 +56,42 @@ BROKER_URL=redis://redis:6379/0
 ```
 
 These will be used across the FastAPI app, Celery, and Groq client.
+
+---
+
+## 🧪 API Endpoints
+
+### `GET /`
+
+Returns a welcome message:
+
+```json
+{
+  "message": "Welcome to Homepage"
+}
+```
+
+### `POST /analyze/`
+
+Analyzes user-provided text and returns the sentiment.
+
+**Request Body:**
+
+```json
+{
+  "text": "I love this product!"
+}
+```
+
+**Response:**
+
+```json
+{
+  "text": "I love this product!",
+  "sentiment": "Positive"
+}
+```
+
+A background Celery task is triggered to save this information in the database.
 
 ---

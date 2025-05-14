@@ -1,4 +1,12 @@
 site_name: 12factor_sentimetAnalyzer
-# 
+#
 site_author: sandesh
-# 
+#
+
+theme:
+  name: readthedocs
+
+nav:
+  - Project Overview: index.md
+  - Setting up the Project: setup.md
+  - Key Components: keycomponents.md
