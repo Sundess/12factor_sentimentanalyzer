@@ -26,7 +26,7 @@ A short description of the project.
 │                         the creator's initials, and a short `-` delimited description, e.g.
 │                         `1.0-jqp-initial-data-exploration`.
 │
-├── pyproject.toml     <- Project configuration file with package metadata for 
+├── pyproject.toml     <- Project configuration file with package metadata for
 │                         12factor_sentimetanalyzer and configuration for tools like black
 │
 ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
@@ -49,23 +49,24 @@ A short description of the project.
     │
     ├── features.py             <- Code to create features for modeling
     │
-    ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          <- Code to run model inference with trained models          
+    ├── modeling
+    │   ├── __init__.py
+    │   ├── predict.py          <- Code to run model inference with trained models
     │   └── train.py            <- Code to train models
     │
     └── plots.py                <- Code to create visualizations
 ```
 
---------
+---
 
 ## Running with Docker
 
 This project provides a Docker setup for easy development and deployment. The application runs on Python 3.10 (slim) and uses a multi-stage build for efficient image size and dependency management.
 
 ### Requirements
+
 - Docker and Docker Compose installed on your system.
-- (Optional) A `.env` file for environment variables. Uncomment the `env_file` line in `docker-compose.yml` if you wish to use it.
+- A `.env` file for environment variables. Uncomment the `env_file`
 
 ### Build and Run
 
@@ -76,19 +77,23 @@ docker compose up --build
 ```
 
 This will:
+
 - Build the Docker image using the provided `Dockerfile` (Python 3.10-slim base)
 - Install all dependencies from `requirements.txt` and `pyproject.toml` in a virtual environment
 - Start the FastAPI app with Uvicorn
 
 ### Configuration
+
 - The application runs as a non-root user (`appuser`) inside the container.
 - No external services (e.g., databases) are required by default.
 - If you need to set environment variables, create a `.env` file in the project root and uncomment the `env_file` line in `docker-compose.yml`.
 
 ### Ports
+
 - The FastAPI app is exposed on port **8000**. The service is mapped to `localhost:8000` on your machine.
 
 ### Example
+
 After running `docker compose up --build`, access the API at:
 
 ```
