@@ -6,98 +6,61 @@
 
 Sentiment Analyzer API is a FastAPI application designed for sentiment analysis, powered by Groq’s LLaMA 4 model. It efficiently processes input text to determine sentiment using advanced natural language understanding. The application integrates Celery for asynchronous background task processing and PostgreSQL for reliable data storage. Docker is utilized to streamline deployment and ensure a consistent, containerized environment.
 
-## Project Organization
+## For Complete docs check docs
+
+## Local Setup
 
 ```
-├── LICENSE            <- Open-source license if one is chosen
-├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
-├── README.md          <- The top-level README for developers using this project.
-├── data
-│   ├── external       <- Data from third party sources.
-│   ├── interim        <- Intermediate data that has been transformed.
-│   ├── processed      <- The final, canonical data sets for modeling.
-│   └── raw            <- The original, immutable data dump.
-│
-├── docs               <- A default mkdocs project; see www.mkdocs.org for details
-│
-├── models             <- Trained and serialized models, model predictions, or model summaries
-│
-├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-│                         the creator's initials, and a short `-` delimited description, e.g.
-│                         `1.0-jqp-initial-data-exploration`.
-│
-├── pyproject.toml     <- Project configuration file with package metadata for
-│                         12factor_sentimetanalyzer and configuration for tools like black
-│
-├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-│
-├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-│   └── figures        <- Generated graphics and figures to be used in reporting
-│
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── setup.cfg          <- Configuration file for flake8
-│
-└── 12factor_sentimetanalyzer   <- Source code for use in this project.
-    │
-    ├── __init__.py             <- Makes 12factor_sentimetanalyzer a Python module
-    │
-    ├── config.py               <- Store useful variables and configuration
-    │
-    ├── dataset.py              <- Scripts to download or generate data
-    │
-    ├── features.py             <- Code to create features for modeling
-    │
-    ├── modeling
-    │   ├── __init__.py
-    │   ├── predict.py          <- Code to run model inference with trained models
-    │   └── train.py            <- Code to train models
-    │
-    └── plots.py                <- Code to create visualizations
+# Cloning the repository
+
+git clone https://github.com/Sundess/12factor_sentimentanalyzer
+cd 12factor_sentimentanalyzer
+
+# Creating and Activating Virtual Environment
+
+python -m venv env
+source env/bin/activate
+
+# Installing dependencies
+
+pip install -r requirements.txt
+
+# Running docker-compose for building the application
+
+docker compose up --build
 ```
 
 ---
 
-## Running with Docker
+## 📂 Folder Structure
 
-This project provides a Docker setup for easy development and deployment. The application runs on Python 3.10 (slim) and uses a multi-stage build for efficient image size and dependency management.
-
-### Requirements
-
-- Docker and Docker Compose installed on your system.
-- A `.env` file for environment variables. Change the `.env_change` file (insert your groq key)
-
-### Build and Run
-
-To build and start the application using Docker Compose:
-
-```
-docker compose up --build
-```
-
-This will:
-
-- Build the Docker image using the provided `Dockerfile` (Python 3.10-slim base)
-- Install all dependencies from `requirements.txt` and `pyproject.toml` in a virtual environment
-- Start the FastAPI app with Uvicorn
-
-### Configuration
-
-- The application runs as a non-root user (`appuser`) inside the container.
-- No external services (e.g., databases) are required by default.
-- If you need to set environment variables, create a `.env` file in the project root and uncomment the `env_file` line in `docker-compose.yml`.
-
-### Ports
-
-- The FastAPI app is exposed on port **8000**. The service is mapped to `localhost:8000` on your machine.
-
-### Example
-
-After running `docker compose up --build`, access the API at:
-
-```
-http://localhost:8000
+```plaintext
+root/
+├── app/
+│   ├── main.py                  # FastAPI app and endpoint definitions
+│   └── sentiment_analyzer.py   # Calls Groq API to analyze sentiment
+├── workers/
+│   ├── db_saver_celery_worker.py  # Celery app initialization
+│   └── tasks.py                   # Task to save data to PostgreSQL
+├── .env                        # Environment variables
+├── requirements.txt            # Python dependencies
+├── Dockerfile                  # Docker image setup
+├── docker-compose.yml          # Multi-container orchestration
+└── docs/                       # MkDocs source
 ```
 
-If you add additional services (e.g., a database), update `docker-compose.yml` accordingly.
+---
+
+## ⚙️ Environment Configuration
+
+Create a `.env` file in the root directory with the following keys:
+
+```env
+GROQ_API_KEY=your_groq_api_key
+DATABASE_URL=postgresql://postgres:postgres@db:5432/mydatabase
+BROKER_URL=redis://redis:6379/0
+```
+
+These will be used across the FastAPI app, Celery, and Groq client.
+
+---
