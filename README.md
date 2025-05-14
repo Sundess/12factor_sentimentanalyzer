@@ -66,7 +66,7 @@ This project provides a Docker setup for easy development and deployment. The ap
 ### Requirements
 
 - Docker and Docker Compose installed on your system.
-- A `.env` file for environment variables. Uncomment the `env_file`
+- A `.env` file for environment variables. Change the `.env_change` file (insert your groq key)
 
 ### Build and Run
 
