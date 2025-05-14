@@ -4,7 +4,7 @@
     <img src="https://img.shields.io/badge/CCDS-Project%20template-328F97?logo=cookiecutter" />
 </a>
 
-A short description of the project.
+Sentiment Analyzer API, a FastAPI application powered by Groq's LLaMA 4 model for sentiment analysis. It leverages Celery for background task processing and PostgreSQL for data storage. Docker is used for environment orchestration.
 
 ## Project Organization
 
