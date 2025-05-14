@@ -2,8 +2,11 @@
 A FastApi app for sentiment analysis
 """
 
+import os
+
 from fastapi import FastAPI
 from pydantic import BaseModel
+from workers.tasks import save_sentiment
 
 from app.sentiment_analyzer import sentiment_analyzer
 
@@ -34,4 +37,9 @@ def analyze_sentiment(sentiment_text: SentimentText):
 
     sentiment = sentiment_analyzer(text=text)
 
-    return {"sentiment": sentiment}
+    print("BROKER_URL =", os.getenv("BROKER_URL"))
+
+    # Enqueue async save task
+    save_sentiment.delay({"text": text, "result": sentiment})
+
+    return {"text": text, "sentiment": sentiment}
