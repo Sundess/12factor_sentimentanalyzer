@@ -1,19 +1,28 @@
-# Sentiment Analyzer API Docs
+# Setting Project Locally
 
-Welcome to the official documentation for the **Sentiment Analyzer API**, a FastAPI application powered by Groq's LLaMA 4 model for sentiment analysis. It leverages **Celery** for background task processing and **PostgreSQL** for data storage. Docker is used for environment orchestration.
+For this you need to have git and docker installed locally in you machine.
 
----
+## Local Setup
 
-## 🚀 Overview
+```
+# Cloning the repository
 
-### Tech Stack
+git clone https://github.com/Sundess/12factor_sentimentanalyzer
+cd 12factor_sentimentanalyzer
 
-- **Framework**: FastAPI
-- **Background Jobs**: Celery
-- **Message Broker**: Redis
-- **Database**: PostgreSQL
-- **AI Model**: Groq Meta-LLaMA-4 (Scout)
-- **Environment Variables**: `.env`
+# Creating and Activating Virtual Environment
+
+python -m venv env
+source env/bin/activate
+
+# Installing dependencies
+
+pip install -r requirements.txt
+
+# Running docker-compose for building the application
+
+docker compose up --build
+```
 
 ---
 

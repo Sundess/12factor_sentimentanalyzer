@@ -7,5 +7,6 @@ theme:
   name: readthedocs
 
 nav:
-  - About: about.md
-  - Home: index.md
+  - Project Overview: index.md
+  - Setting up the Project: setup.md
+  - Key Components: keycomponents.md

@@ -1,124 +1,35 @@
-## 🧠 Sentiment Analysis Engine
+# Sentiment Analyzer API Docs
 
-- Implemented in `sentiment_analyzer.py`
-- Uses Groq LLaMA 4 model with system instructions to return:
+## About
 
-  - `positive`
-  - `negative`
-  - `neutral`
+**Sentiment Analyzer API** is a FastAPI application designed for sentiment analysis, powered by Groq’s LLaMA 4 model. It efficiently processes input text to determine sentiment using advanced natural language understanding. The application integrates Celery for asynchronous background task processing and PostgreSQL for reliable data storage. Docker is utilized to streamline deployment and ensure a consistent, containerized environment.
 
 ---
 
-## 🛠 Celery Background Task
+## 12 Factor Application Implementation
 
-### Task Location
+1. Codebase : Utilized Git for version tracking, following git best practices
+2. Dependencies : Dependencies are stored in seperate python virtual environment.
+3. Config : .env file has been setup for API Key confriguation
+4. Backing Services : The app accesses services via credentials stored in environment variables.
+5. Build, Release, Run : Utilized a Dockerfile to define the build process
+6. Processes : Runs as a stateless and share-nothing process
+7. Port Binding : Runs on a specific port that has been binded in dockerfile
+8. Concurrency : Worker node has been utilized to handel concurrency with help of redis.
+9. Disposability : Not utilzed
+10. Dev/Prod Parity : Run local environments that closely approximate production environments.
+11. Logs : Not utilized
+12. Admin Processes: Leveraged Celery to execute asynchronous background tasks for saving data into the database, emulating one-time administrative operations such as data imports or cleanup jobs, in line with 12-Factor App best practices.
 
-`workers/tasks.py`
+## 🚀 Tech Stack
 
-### Function
+- **Framework**: FastAPI
+- **Background Jobs**: Celery
+- **Message Broker**: Redis
+- **Database**: PostgreSQL
+- **AI Model**: Groq Meta-LLaMA-4 (Scout)
+- **Environment Variables**: `.env`
 
-```python
-@celery_app.task(name="app.task.save_sentiment")
-def save_sentiment(data):
-    # Connects to DATABASE_URL and saves the text + sentiment
-```
+## Project Flow
 
-Database table: `sentiments(id, text, result)` is created if it doesn't exist.
-
----
-
-## 🐳 Dockerization
-
-### Dockerfile
-
-```dockerfile
-FROM python:3.11-slim
-WORKDIR /app
-RUN apt-get update && apt-get install -y gcc libpq-dev && rm -rf /var/lib/apt/lists/*
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
-```
-
-### docker-compose.yml
-
-```yaml
-version: "3.9"
-services:
-  web:
-    build: .
-    container_name: fastapi_web
-    ports:
-      - "8000:8000"
-    env_file:
-      - .env
-    depends_on:
-      - redis
-      - db
-
-  worker:
-    build: .
-    container_name: celery_worker
-    command: celery -A workers.db_saver_celery_worker worker --loglevel=info
-    env_file:
-      - .env
-    depends_on:
-      - redis
-      - db
-
-  redis:
-    image: redis:7-alpine
-    ports:
-      - "6379:6379"
-
-  db:
-    image: postgres:14
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: mydatabase
-    ports:
-      - "5432:5432"
-```
-
----
-
-## 🧪 Running the Project
-
-```bash
-# Build and start containers
-$ docker-compose up --build
-```
-
-Visit: [http://localhost:8000/docs](http://localhost:8000/docs) to test the API.
-
-To tail logs:
-
-```bash
-docker-compose logs -f worker
-docker-compose logs -f web
-```
-
-To bring services down:
-
-```bash
-docker-compose down
-```
-
----
-
-## 📚 Development Notes
-
-- **Celery** loads `.env` using `dotenv.load_dotenv()`.
-- **PostgreSQL table** is created dynamically inside the task.
-- **Groq API** requires an active key with appropriate usage limits.
-- No volume persistence is currently configured.
-
----
-
-## 🧾 License & Attribution
-
-- LLaMA 4 by Meta AI (via Groq)
-- FastAPI licensed under MIT
-- This project template was generated with ❤️ and Docker 🐳
+![Alt Text](images/flow.svg)
