@@ -19,7 +19,7 @@ jobs:
       - name: Set image name and tag
         id: vars
         run: |
-          echo "IMAGE_NAME=myusername/my-image-name" >> $GITHUB_ENV
+          echo "IMAGE_NAME=sundess17/12factorapp_sentimentanalyzer" >> $GITHUB_ENV
           echo "TAG=$(date +%s)" >> $GITHUB_ENV
 
       - name: Build the Docker image
