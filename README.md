@@ -8,7 +8,7 @@ Sentiment Analyzer API is a FastAPI application designed for sentiment analysis,
 
 ## For Complete docs check docs
 
-## Local Setup
+## Local Setup through Docker
 
 ```
 # Cloning the repository
@@ -16,21 +16,16 @@ Sentiment Analyzer API is a FastAPI application designed for sentiment analysis,
 git clone https://github.com/Sundess/12factor_sentimentanalyzer
 cd 12factor_sentimentanalyzer
 
-# Creating and Activating Virtual Environment
+# Setup .env
 
-python -m venv env
-source env/bin/activate
-
-# Installing dependencies
-
-pip install -r requirements.txt
+change .env_change file to .env
+Add groq api key in GROQ_API_KEY=
 
 # Running docker-compose for building the application
 
 docker compose up --build
-```
 
----
+```
 
 ## 📂 Folder Structure
 
@@ -57,8 +52,6 @@ Create a `.env` file in the root directory with the following keys:
 
 ```env
 GROQ_API_KEY=your_groq_api_key
-DATABASE_URL=postgresql://postgres:postgres@db:5432/mydatabase
-BROKER_URL=redis://redis:6379/0
 ```
 
 These will be used across the FastAPI app, Celery, and Groq client.
