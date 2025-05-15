@@ -8,15 +8,16 @@ Sentiment Analyzer API is a FastAPI application designed for sentiment analysis,
 
 ## Local Setup through Docker
 
+### Cloning the repository
+
 ```
-# Cloning the repository
 
 git clone https://github.com/Sundess/12factor_sentimentanalyzer
 cd 12factor_sentimentanalyzer
 
 ```
 
-## ⚙️ Environment Configuration
+### ⚙️ Environment Configuration
 
 Change `.env_change` file in the root directory to `.env' and add your groq api key
 
@@ -24,11 +25,10 @@ Change `.env_change` file in the root directory to `.env' and add your groq api 
 GROQ_API_KEY=your_groq_api_key
 ```
 
-# Running docker-compose for building the application
+### Running docker-compose for building the application
 
 docker compose up --build
 
-````
 ---
 
 ## 📂 Folder Structure
@@ -46,8 +46,4 @@ root/
 ├── Dockerfile                  # Docker image setup
 ├── docker-compose.yml          # Multi-container orchestration
 └── docs/                       # MkDocs source
-````
-
-```
-
 ```
