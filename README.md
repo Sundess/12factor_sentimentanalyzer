@@ -6,8 +6,6 @@
 
 Sentiment Analyzer API is a FastAPI application designed for sentiment analysis, powered by Groq’s LLaMA 4 model. It efficiently processes input text to determine sentiment using advanced natural language understanding. The application integrates Celery for asynchronous background task processing and PostgreSQL for reliable data storage. Docker is utilized to streamline deployment and ensure a consistent, containerized environment.
 
-## For Complete docs check docs
-
 ## Local Setup through Docker
 
 ```
@@ -16,16 +14,22 @@ Sentiment Analyzer API is a FastAPI application designed for sentiment analysis,
 git clone https://github.com/Sundess/12factor_sentimentanalyzer
 cd 12factor_sentimentanalyzer
 
-# Setup .env
+```
 
-change .env_change file to .env
-Add groq api key in GROQ_API_KEY=
+## ⚙️ Environment Configuration
+
+Change `.env_change` file in the root directory to `.env' and add your groq api key
+
+```env
+GROQ_API_KEY=your_groq_api_key
+```
 
 # Running docker-compose for building the application
 
 docker compose up --build
 
-```
+````
+---
 
 ## 📂 Folder Structure
 
@@ -42,18 +46,8 @@ root/
 ├── Dockerfile                  # Docker image setup
 ├── docker-compose.yml          # Multi-container orchestration
 └── docs/                       # MkDocs source
+````
+
 ```
 
----
-
-## ⚙️ Environment Configuration
-
-Create a `.env` file in the root directory with the following keys:
-
-```env
-GROQ_API_KEY=your_groq_api_key
 ```
-
-These will be used across the FastAPI app, Celery, and Groq client.
-
----
