@@ -1,62 +1,43 @@
-# Sentiment Analyzer API Docs
+# Key Components
 
-## 🧪 API Endpoints
+## 🧠 Sentiment Analysis Endpoint
 
-The application’s API endpoints are defined in main.py under the app directory, using the FastAPI framework to handle HTTP requests and responses efficiently.
+Location: `app/main.py`
 
-`GET /`
+#### Function
 
-Returns a welcome message:
-
-```json
-{
-  "message": "Welcome to Homepage"
-}
+```
+@app.post("/analyze/")
+def analyze_sentiment(sentiment_text: SentimentText):
+  # Allows users to send request to server.
 ```
 
-`POST /analyze/`
+## 🛠️ Sentiment Analysis Engine
 
-Analyzes user-provided text and returns the sentiment.
+Location: `app/sentiment_analyzer.py`
 
-**Request Body:**
+#### Function
 
-```json
-{
-  "text": "I love this product!"
-}
+```
+def sentiment_analyzer(text):
+    """
+    Take text as input and analyzer the text.
+    Categories it into Positive, Negative or Neutral & returns it.
+    """
 ```
 
-**Response:**
-
-```json
-{
-  "text": "I love this product!",
-  "sentiment": "Positive"
-}
-```
-
-A background Celery task is triggered to save this information in the database.
-
----
-
-## 🧠 Sentiment Analysis Engine
-
-- Implemented in `sentiment_analyzer.py`
 - Uses Groq LLaMA 4 model with system instructions to return:
-
   - `positive`
   - `negative`
   - `neutral`
 
 ---
 
-## 🛠 Celery Background Task
+## 📝 Celery Background Task
 
-### Task Location
+Location: `workers/tasks.py`
 
-`workers/tasks.py`
-
-### Function
+#### Function
 
 ```python
 @celery_app.task(name="app.task.save_sentiment")
@@ -79,48 +60,62 @@ RUN apt-get update && apt-get install -y gcc libpq-dev && rm -rf /var/lib/apt/li
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
 ### docker-compose.yml
 
 ```yaml
-version: "3.9"
+version: "3.8"
 services:
   web:
     build: .
     container_name: fastapi_web
     ports:
       - "8000:8000"
-    env_file:
-      - .env
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - BROKER_URL=redis://redis:6379/0
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mydatabase
     depends_on:
       - redis
       - db
+    # no volumes for prod; add if you want live reload
+    # volumes:
+    #   - .:/app
 
   worker:
     build: .
     container_name: celery_worker
-    command: celery -A workers.db_saver_celery_worker worker --loglevel=info
-    env_file:
-      - .env
+    command: >
+      celery -A workers.db_saver_celery_worker worker --loglevel=info
+    environment:
+      - BROKER_URL=redis://redis:6379/0
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/mydatabase
     depends_on:
       - redis
       - db
+      - web
 
   redis:
     image: redis:7-alpine
+    container_name: redis
     ports:
       - "6379:6379"
 
   db:
-    image: postgres:14
+    image: postgres:13-alpine
+    container_name: postgres
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: mydatabase
     ports:
       - "5432:5432"
+    # volumes:
+    #   - pgdata:/var/lib/postgresql/data
+# volumes:
+#   pgdata:
 ```
 
 ---

@@ -16,7 +16,7 @@
 6. Processes : Runs as a stateless and share-nothing process
 7. Port Binding : Runs on a specific port that has been binded in dockerfile
 8. Concurrency : Worker node has been utilized to handel concurrency with help of redis.
-9. Disposability : Not utilzed
+9. Disposability : Utilize message queues methods to handle tasks.
 10. Dev/Prod Parity : Run local environments that closely approximate production environments.
 11. Logs : Not utilized
 12. Admin Processes: Leveraged Celery to execute asynchronous background tasks for saving data into the database, emulating one-time administrative operations such as data imports or cleanup jobs, in line with 12-Factor App best practices.
