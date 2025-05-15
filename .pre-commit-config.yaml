@@ -1,0 +1,7 @@
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.9 # Latest Ruff pre-commit hook release
+    hooks:
+      - id: ruff # Run Ruff’s linter
+        args: [--fix] # Auto-apply fixable issues

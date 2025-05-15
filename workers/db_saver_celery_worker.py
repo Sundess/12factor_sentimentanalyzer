@@ -1,6 +1,7 @@
 # workers/db_saver_celery_worker.py
 
 import os
+
 from celery import Celery
 from dotenv import load_dotenv
 
